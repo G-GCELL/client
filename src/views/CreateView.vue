@@ -119,7 +119,7 @@ const createFile = () => {
 
         completeSse.addEventListener("ERROR", function (event) {
           var message = JSON.parse(event.data);
-          alert(message.message);
+          alert(message.errorMessage);
         });
 
         router.push("/");
