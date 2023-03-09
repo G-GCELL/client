@@ -33,7 +33,7 @@ const search = reactive({
   minCreatedAt: null,
   maxCreatedAt: null,
   page: 0,
-  sort: "createdAt desc"
+  sort: "createdAt,desc"
 });
 
 const searchFile = () => {
