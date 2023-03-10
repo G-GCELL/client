@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted } from "vue";
+import {onMounted} from "vue";
 import axios from "axios";
-import { ref, reactive } from "vue";
-import { useRouter } from 'vue-router'
+import {ref, reactive} from "vue";
+import {useRouter} from 'vue-router'
 
 import FileInfoItem from "../components/FileInfoItem.vue";
 
@@ -32,7 +32,6 @@ const search = reactive({
   nameCondition: null,
   minCreatedAt: null,
   maxCreatedAt: null,
-  page: 0,
   sort: "createdAt,desc"
 });
 
@@ -61,8 +60,8 @@ const searchFile = () => {
 };
 
 const movePage = (value) => {
-  search.page = value - 1;
-  getFileList();
+  pageInfo.pageNumber = value - 1;
+  getFileList(pageInfo.pageNumber);
 };
 
 const createUI = () => {
@@ -70,16 +69,16 @@ const createUI = () => {
 };
 
 const getFileList = () => {
+  search.page = pageInfo.pageNumber;
   axios({
     method: "GET",
     url: "/api/excels",
     params: search,
   })
       .then((response) => {
-        var data = response.data.response;
+        let data = response.data.response;
         fileList.value = data.content;
         pageInfo.totalPages = data.totalPages;
-        pageInfo.pageNumber = data.pageable.pageNumber;
         console.log(response.data.response);
       })
       .catch((error) => {
@@ -88,7 +87,7 @@ const getFileList = () => {
 };
 
 onMounted(() => {
-  getFileList();
+  getFileList(0);
 });
 </script>
 
@@ -105,7 +104,7 @@ onMounted(() => {
           <option>NOT_IN</option>
         </select>
         <input type="text" class="form-control" placeholder="IdList" aria-label="IdList" aria-describedby="basic-addon1"
-               @input="search.excelInfoIdList = $event.target.value" value="" />
+               @input="search.excelInfoIdList = $event.target.value" value=""/>
       </div>
       <div class="input-group mt-3 mb-3">
         <label class="input-group-text" for="inputGroupSelect"><b>FileName</b></label>
@@ -116,9 +115,9 @@ onMounted(() => {
           <option>LIKE</option>
         </select>
         <input type="text" class="form-control" placeholder="Username" @input="search.fileName = $event.target.value"
-               value="" />
+               value=""/>
       </div>
-      <VueDatePicker class="mb-3" model-type="yyyy-MM-dd'T'HH:mm:ss" v-model="date" range />
+      <VueDatePicker class="mb-3" model-type="yyyy-MM-dd'T'HH:mm:ss" v-model="date" range/>
 
       <div class="btn-group">
         <button type="button" class="btn btn-primary mb-3" @click="searchFile">
@@ -139,12 +138,12 @@ onMounted(() => {
       </tr>
       </thead>
       <tbody v-for="item in fileList" :key="item.id">
-      <FileInfoItem v-bind="item" />
+      <FileInfoItem v-bind="item" @getFileList="getFileList"/>
       </tbody>
     </table>
     <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{ active: n - 1 === pageInfo.pageNumber }" v-for="n in pageInfo.totalPages"><a
-          class="page-link" @click="movePage(n)">{{ n }}</a>
+      <li class="page-item" :class="{ active: n - 1 === pageInfo.pageNumber }" v-for="n in pageInfo.totalPages">
+        <a class="page-link" @click="movePage(n)">{{ n }}</a>
       </li>
     </ul>
   </div>

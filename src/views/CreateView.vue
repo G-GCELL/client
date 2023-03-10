@@ -77,7 +77,7 @@ const mappingValue = () => {
 };
 
 const sortColumnNames = (array) => {
-  var resultArray = [];
+  let resultArray = [];
   columnNamesValue.forEach((element) => {
     if (array.includes(element)) {
       resultArray.push(element);
@@ -103,22 +103,24 @@ const createFile = () => {
     data: create,
   })
       .then((response) => {
-        var url = response.data.response;
-        var excelInfoId = Number(url.substring(8, url.length));
+        let url = response.data.response;
+        let excelInfoId = Number(url.substring(8, url.length));
         progressStore.set(excelInfoId, "0");
+
         const completeSse = new EventSource("/api/connect/file/" + excelInfoId);
+
         completeSse.addEventListener("CONNECT", function (event) {
           console.log(event);
           console.log("connect");
         });
 
         completeSse.addEventListener("FILE_CREATION_COMPLETE", function (event) {
-          var message = JSON.parse(event.data);
+          let message = JSON.parse(event.data);
           download(message.excelInfoId, message.fileName);
         });
 
         completeSse.addEventListener("ERROR", function (event) {
-          var message = JSON.parse(event.data);
+          let message = JSON.parse(event.data);
           alert(message.errorMessage);
         });
 
