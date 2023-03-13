@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import {getRoles} from "@/store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,28 +7,51 @@ const router = createRouter({
     {
       path: "/update",
       name: "update",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/UpdateView.vue"),
+      meta : { authorization: ["ROLE_ADMIN"] }
     },
     {
       path: "/create",
       name: "create",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/CreateView.vue"),
+      meta : { authorization: ["ROLE_MEMBER"] }
     },
     {
       path: "/",
+      name: "login",
+      component: () => import("../views/LoginView.vue"),
+      meta : { authorization: [] }
+    },
+    {
+      path: "/search",
       name: "search",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/SearchView.vue"),
+      meta : { authorization: ["ROLE_MEMBER"] }
     },
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  // const roles = getRoles();
+  const roles = ["ROLE_MEMBER", "ROLE_ADMIN"];
+  const { authorization } = to.meta;
+  let flag = false;
+
+  if(authorization.length == 0) {
+    flag = true;
+  } else {
+    roles.forEach((role) => {
+      if (authorization.includes(role)){
+        flag = true;
+      }
+    });
+  }
+
+  if(roles && flag) {
+    return next();
+  }
+  alert("로그인이 필요합니다.");
+  next({path: "/"});
 });
 
 export default router;

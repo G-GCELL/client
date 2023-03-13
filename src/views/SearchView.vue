@@ -12,6 +12,7 @@ import "bootstrap";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import {getToken} from "@/store";
 
 const router = useRouter();
 
@@ -88,6 +89,10 @@ const getFileList = () => {
     method: "GET",
     url: "/api/excels",
     params: search,
+  }, {
+    headers: {
+      "Authorization" : getToken,
+    }
   })
       .then((response) => {
         let data = response.data.response;

@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
+import {getToken} from "@/store";
 
 const router = useRouter();
 
@@ -24,8 +25,12 @@ const send = () => {
     method: "POST",
     url: "/api/dataset",
     data: formdata,
+  }, {
+    headers: {
+      "Authorization" : getToken,
+    }
   })
-      .then((response) => {
+      .then(() => {
         alert("업데이트 작업을 추가하였습니다.");
         router.push("/");
       })

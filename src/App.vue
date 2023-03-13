@@ -1,8 +1,15 @@
 <script setup>
 import { RouterView } from "vue-router";
-import { progressStore } from "./store";
+import { progressStore, getToken } from "./store";
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
-const progressSse = new EventSource("/api/connect");
+const progressSse = new EventSourcePolyfill("/api/connect", {
+  headers : {
+    "Authorization" : getToken,
+  },
+  heartbeatTimeout: 1200000,
+  withCredentials: true,
+});
 
 progressSse.addEventListener("CONNECT", function (event) {
   console.log(event);

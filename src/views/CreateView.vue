@@ -2,7 +2,9 @@
 import axios from "axios";
 import { reactive } from "vue";
 import { useRouter } from 'vue-router'
-import { progressStore } from "../store";
+import { progressStore, getToken } from "../store";
+import { EventSourcePolyfill } from 'event-source-polyfill';
+
 import Vue3TagsInput from 'vue3-tags-input';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -102,13 +104,23 @@ const createFile = () => {
     method: "POST",
     url: "/api/excels",
     data: create,
+  }, {
+    headers: {
+      "Authorization" : getToken,
+    }
   })
       .then((response) => {
         let url = response.data.response;
         let excelInfoId = Number(url.substring(8, url.length));
         progressStore.set(excelInfoId, "0");
 
-        const completeSse = new EventSource("/api/connect/file/" + excelInfoId);
+        const completeSse = new EventSourcePolyfill("/api/connect/file/" + excelInfoId, {
+          headers : {
+            "Authorization" : getToken,
+          },
+          heartbeatTimeout: 1200000,
+          withCredentials: true,
+        });
 
         completeSse.addEventListener("CONNECT", function (event) {
           console.log(event);
@@ -125,7 +137,7 @@ const createFile = () => {
           alert(message.errorMessage);
         });
 
-        router.push("/");
+        router.push("/search");
       })
       .catch((error) => {
         alert("생성에 실패하였습니다.\n" + error.response.data.error.message);
@@ -138,6 +150,10 @@ const download = (fileId, fileName) => {
     method: "GET",
     url: '/api/excels/' + fileId,
     responseType: "blob"
+  }, {
+    headers: {
+      "Authorization" : getToken,
+    }
   }).then((response) => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
