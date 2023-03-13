@@ -3,6 +3,7 @@ import axios from "axios";
 import { reactive } from "vue";
 import { useRouter } from 'vue-router'
 import { progressStore } from "../store";
+import Vue3TagsInput from 'vue3-tags-input';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
@@ -13,7 +14,7 @@ const inputValue = reactive({
   fileName: null,
   columnNames: ["account_id", "start_date", "end_date", "product_code", "cost"],
   accountIdStatus: "NONE",
-  accountId: null,
+  accountId: [],
   productCodeStatus: "NONE",
   productCode: [],
   startDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
@@ -30,6 +31,10 @@ const columnNamesValue = [
   "cost",
 ];
 
+const handleChangeTag = (tags) => {
+  inputValue.accountId = tags;
+};
+
 const mappingValue = () => {
   const returnValue = {
     fileName: inputValue.fileName,
@@ -38,13 +43,13 @@ const mappingValue = () => {
   };
 
   returnValue.columnNames = sortColumnNames(inputValue.columnNames);
-
+  console.log(inputValue.accountId);
   switch (inputValue.accountIdStatus) {
     case "IN":
-      returnValue.inAccountId = parseArray(inputValue.accountId);
+      returnValue.inAccountId = inputValue.accountId;
       break;
     case "NOTIN":
-      returnValue.notAccountId = parseArray(inputValue.accountId);
+      returnValue.notAccountId = inputValue.accountId;
       break;
   }
 
@@ -88,10 +93,6 @@ const sortColumnNames = (array) => {
 
 const formattingDateTime = (date) => {
   return date.toISOString().substring(0, 17);
-};
-
-const parseArray = (value) => {
-  return value.split(",");
 };
 
 const createFile = () => {
@@ -199,8 +200,8 @@ const download = (fileId, fileName) => {
         <option>IN</option>
         <option>NOTIN</option>
       </select>
-      <input type="text" class="form-control" placeholder="AccountId" aria-label="AccountId"
-             aria-describedby="basic-addon1" @input="inputValue.accountId = $event.target.value" value="" />
+      <vue3-tags-input class="form-control" aria-label="AccountId"
+             aria-describedby="basic-addon1" @on-tags-changed="handleChangeTag" value="" />
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" id="product-code-select"><b>ProductCode</b></span>
@@ -314,3 +315,4 @@ const download = (fileId, fileName) => {
   max-width: 100px;
 }
 </style>
+
