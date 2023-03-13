@@ -3,6 +3,7 @@ import {onMounted} from "vue";
 import axios from "axios";
 import {ref, reactive} from "vue";
 import {useRouter} from 'vue-router'
+import Vue3TagsInput from 'vue3-tags-input';
 
 import FileInfoItem from "../components/FileInfoItem.vue";
 
@@ -18,6 +19,10 @@ const pageInfo = reactive({
   totalPages: 1,
   pageNumber: 0,
 });
+
+const handleChangeTag = (tags) => {
+  search.excelInfoIdList = tags;
+};
 
 const fileList = ref([]);
 const date = ref([]);
@@ -68,6 +73,10 @@ const createUI = () => {
   router.push("/create");
 };
 
+const updateUI = () => {
+  router.push("/update");
+};
+
 const getFileList = () => {
   search.page = pageInfo.pageNumber;
   axios({
@@ -103,8 +112,8 @@ onMounted(() => {
           <option>IN</option>
           <option>NOT_IN</option>
         </select>
-        <input type="text" class="form-control" placeholder="IdList" aria-label="IdList" aria-describedby="basic-addon1"
-               @input="search.excelInfoIdList = $event.target.value" value=""/>
+        <vue3-tags-input class="form-control" aria-label="AccountId"
+                         aria-describedby="basic-addon1" @on-tags-changed="handleChangeTag" value="" />
       </div>
       <div class="input-group mt-3 mb-3">
         <label class="input-group-text" for="inputGroupSelect"><b>FileName</b></label>
@@ -125,6 +134,9 @@ onMounted(() => {
         </button>
         <button type="button" class="btn btn-primary mb-3" @click="createUI">
           생성
+        </button>
+        <button type="button" class="btn btn-primary mb-3" @click="updateUI">
+          데이터 관리
         </button>
       </div>
     </div>
