@@ -1,8 +1,9 @@
 <script setup>
 import axios from "axios";
-import {progressStore} from "../store";
+import {getToken, progressStore} from "../store";
 
 import dayjs from "dayjs";
+import {onMounted} from "vue";
 
 const props = defineProps({
   excelInfoId: Number,
@@ -20,6 +21,10 @@ const download = () => {
     method: "GET",
     url: "/api/excels/" + props.excelInfoId,
     responseType: "blob",
+  }, {
+    headers: {
+      "Authorization" : "Bearer " + getToken(),
+    }
   })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -43,6 +48,10 @@ const deleteFile = () => {
   axios({
     method: "DELETE",
     url: "/api/excels/" + props.excelInfoId,
+  }, {
+    headers: {
+      "Authorization" : "Bearer " + getToken(),
+    }
   }).then((response) => {
     console.log(response);
     alert("삭제가 완료되었습니다.");
@@ -61,6 +70,10 @@ const updateFileName = () => {
     data: {
       fileName: fileName,
     },
+  }, {
+    headers: {
+      "Authorization" : "Bearer " + getToken(),
+    }
   })
       .then(() => {
         alert("변경이 완료되었습니다.");
@@ -71,6 +84,10 @@ const updateFileName = () => {
         console.log(error);
       });
 };
+
+onMounted(() => {
+
+});
 </script>
 
 <template>
