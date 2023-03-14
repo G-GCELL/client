@@ -34,22 +34,27 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { authorization } = to.meta;
+  let flag = false;
 
-  if(getToken()){
-    if(authorization.length == 0) {
-      return next();
-    } else {
+  if(authorization.length == 0) {
+    flag = true;
+    return next();
+  } else {
+    if(getToken()){
       const roles = getRoles();
       roles.forEach((role) => {
         if (authorization.includes(role)){
+          flag = true;
           return next();
         }
       });
     }
   }
 
-  alert("로그인이 필요합니다.");
-  next({path: "/"});
+  if (!flag) {
+    alert("로그인이 필요합니다.");
+  }
+  return next({path: "/"});
 });
 
 export default router;

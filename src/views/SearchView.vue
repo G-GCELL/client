@@ -105,7 +105,6 @@ const getFileList = () => {
 };
 
 onMounted(() => {
-  console.log(getToken());
   getFileList(0);
 });
 </script>
