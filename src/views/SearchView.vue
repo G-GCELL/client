@@ -84,9 +84,8 @@ const getFileList = () => {
     method: "GET",
     url: "/api/excels",
     params: search,
-  }, {
     headers: {
-      "Authorization" : "Bearer " + getToken(),
+      Authorization : "Bearer " + getToken(),
     }
   })
       .then((response) => {

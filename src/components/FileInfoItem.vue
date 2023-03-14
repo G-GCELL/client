@@ -21,7 +21,6 @@ const download = () => {
     method: "GET",
     url: "/api/excels/" + props.excelInfoId,
     responseType: "blob",
-  }, {
     headers: {
       "Authorization" : "Bearer " + getToken(),
     }
@@ -48,7 +47,6 @@ const deleteFile = () => {
   axios({
     method: "DELETE",
     url: "/api/excels/" + props.excelInfoId,
-  }, {
     headers: {
       "Authorization" : "Bearer " + getToken(),
     }
@@ -70,7 +68,6 @@ const updateFileName = () => {
     data: {
       fileName: fileName,
     },
-  }, {
     headers: {
       "Authorization" : "Bearer " + getToken(),
     }

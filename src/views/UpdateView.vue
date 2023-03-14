@@ -25,9 +25,8 @@ const send = () => {
     method: "POST",
     url: "/api/dataset",
     data: formdata,
-  }, {
     headers: {
-      "Authorization" : "Bearer " + getToken(),
+      Authorization : "Bearer " + getToken(),
     }
   })
       .then(() => {

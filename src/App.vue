@@ -7,7 +7,7 @@ const token = getToken();
 if(token){
   const progressSse = new EventSourcePolyfill("/api/connect", {
     headers : {
-      "Authorization" : "Bearer " + token,
+      Authorization : "Bearer " + token,
     },
     heartbeatTimeout: 1200000,
     withCredentials: true,
