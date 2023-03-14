@@ -1,22 +1,9 @@
 <script setup>
-import axios from "axios";
-import { useRouter } from 'vue-router'
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
-import {setToken} from "@/store";
 
-const router = useRouter();
 const login = () => {
-  axios({
-    method: "GET",
-    url: "/api/oauth2/authorization/hiworks"
-  }).then((response) => {
-    console.log(response);
-    let token = response.data.response.accessToken;
-    setToken(token);
-    router.push("/search");
-  });
+  location.href = "http://gcell.com/api/oauth2/authorization/hiworks";
 };
 
 </script>

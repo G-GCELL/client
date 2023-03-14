@@ -106,7 +106,7 @@ const createFile = () => {
     data: create,
   }, {
     headers: {
-      "Authorization" : getToken,
+      "Authorization" : "Bearer " + getToken(),
     }
   })
       .then((response) => {
@@ -116,7 +116,7 @@ const createFile = () => {
 
         const completeSse = new EventSourcePolyfill("/api/connect/file/" + excelInfoId, {
           headers : {
-            "Authorization" : getToken,
+            "Authorization" : "Bearer " + getToken(),
           },
           heartbeatTimeout: 1200000,
           withCredentials: true,
@@ -152,7 +152,7 @@ const download = (fileId, fileName) => {
     responseType: "blob"
   }, {
     headers: {
-      "Authorization" : getToken,
+      "Authorization" : "Bearer " + getToken(),
     }
   }).then((response) => {
     const url = window.URL.createObjectURL(new Blob([response.data]));

@@ -91,7 +91,7 @@ const getFileList = () => {
     params: search,
   }, {
     headers: {
-      "Authorization" : getToken,
+      "Authorization" : "Bearer " + getToken(),
     }
   })
       .then((response) => {

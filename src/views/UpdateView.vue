@@ -27,7 +27,7 @@ const send = () => {
     data: formdata,
   }, {
     headers: {
-      "Authorization" : getToken,
+      "Authorization" : "Bearer " + getToken(),
     }
   })
       .then(() => {

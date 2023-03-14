@@ -32,24 +32,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // const roles = getRoles();
-  const roles = ["ROLE_MEMBER", "ROLE_ADMIN"];
   const { authorization } = to.meta;
-  let flag = false;
 
   if(authorization.length == 0) {
-    flag = true;
+    return next();
   } else {
+    const roles = getRoles();
     roles.forEach((role) => {
       if (authorization.includes(role)){
-        flag = true;
+        return next();
       }
     });
   }
 
-  if(roles && flag) {
-    return next();
-  }
   alert("로그인이 필요합니다.");
   next({path: "/"});
 });
