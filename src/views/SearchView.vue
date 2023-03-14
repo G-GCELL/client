@@ -22,7 +22,12 @@ const pageInfo = reactive({
 });
 
 const handleChangeTag = (tags) => {
-  search.excelInfoIdList = tags;
+  let idList = "";
+  tags.forEach(tag => {
+    idList = idList.concat(tag + ",");
+  });
+  idList = idList.substring(0, idList.length - 1);
+  search.excelInfoIdList = idList;
 };
 
 const fileList = ref([]);
