@@ -17,13 +17,13 @@ const router = createRouter({
       // meta : { authorization: ["ROLE_MEMBER"] }
     },
     {
-      path: "/",
+      path: "/login",
       name: "login",
       component: () => import("../views/LoginView.vue"),
       // meta : { authorization: [] }
     },
     {
-      path: "/search",
+      path: "/",
       name: "search",
       component: () => import("../views/SearchView.vue"),
       // meta : { authorization: ["ROLE_MEMBER"] }
