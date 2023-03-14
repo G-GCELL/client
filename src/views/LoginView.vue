@@ -3,14 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
 const login = () => {
-  location.href = "http://gcell.com/api/oauth2/authorization/hiworks";
+  location.href = "/api/oauth2/authorization/hiworks";
 };
 
 </script>
 
 <template>
   <div class="container">
-    <img class="logo" src="src/assets/Gabia_Logo.png"/>
+    <img class="logo" src="/src/assets/Gabia_Logo.png"/>
     <div class="border login-form">
       <button class="login-button" @click="login">hiworks로 로그인하기</button>
     </div>
