@@ -306,7 +306,7 @@ const download = (fileId, fileName) => {
       <span class="input-group-text"><b>Cost</b></span>
       <input type="number" class="form-control" @input="inputValue.costMin = $event.target.value" value="0" />
       <span class="input-group-text">~</span>
-      <input type="number" class="form-control" @input="inputValue.costMax = $event.target.value" value="100" />
+      <input type="number" class="form-control" @input="inputValue.costMax = $event.target.value" value="1000" />
     </div>
     <button type="button" class="btn btn-primary mb-3" @click="createFile">
       생성
