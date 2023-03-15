@@ -10,14 +10,9 @@ export const getToken = () => {
 };
 
 export const getRoles = () => {
-    let roles = cookies.get("roles");
-    if (!roles){
-        const token = getToken();
-        let base64Payload = token.split(".")[1];
-        let decodePayload = atob(base64Payload);
-        let payload = JSON.parse(decodePayload);
-        cookies.set("roles", payload.roles, 60 * 60);
-        roles = payload.roles;
-    }
-    return roles.split(",");
+    const token = getToken();
+    let base64Payload = token.split(".")[1];
+    let decodePayload = atob(base64Payload);
+    let payload = JSON.parse(decodePayload);
+    return payload.roles.split(",");
 }
