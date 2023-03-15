@@ -48,6 +48,10 @@ router.beforeEach((to, from, next) => {
           return next();
         }
       });
+      if(!flag) {
+        alert("권한이 부족합니다.");
+        return from();
+      }
     }
   }
 
