@@ -22,7 +22,7 @@ const inputValue = reactive({
   startDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
   endDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
   costMin: "0",
-  costMax: "100",
+  costMax: "1000",
 });
 
 const columnNamesValue = [
