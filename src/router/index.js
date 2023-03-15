@@ -36,6 +36,10 @@ router.beforeEach((to, from, next) => {
   const { authorization } = to.meta;
   let flag = false;
 
+  if(to.name == "login" && getToken()) {
+    return next({path: "/search"});
+  }
+
   if(authorization.length == 0) {
     flag = true;
     return next();
@@ -43,7 +47,7 @@ router.beforeEach((to, from, next) => {
     if(getToken()){
       const roles = getRoles();
       roles.forEach((role) => {
-        if (authorization.includes(role)){
+        if (authorization.includes(role)) {
           flag = true;
           return next();
         }
