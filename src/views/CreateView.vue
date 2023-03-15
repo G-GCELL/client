@@ -22,7 +22,7 @@ const inputValue = reactive({
   startDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
   endDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
   costMin: "0",
-  costMax: "1000",
+  costMax: "10000",
 });
 
 const columnNamesValue = [
@@ -306,7 +306,7 @@ const download = (fileId, fileName) => {
       <span class="input-group-text"><b>Cost</b></span>
       <input type="number" class="form-control" @input="inputValue.costMin = $event.target.value" value="0" />
       <span class="input-group-text">~</span>
-      <input type="number" class="form-control" @input="inputValue.costMax = $event.target.value" value="1000" />
+      <input type="number" class="form-control" @input="inputValue.costMax = $event.target.value" value="10000" />
     </div>
     <button type="button" class="btn btn-primary mb-3" @click="createFile">
       생성
