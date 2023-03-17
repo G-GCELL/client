@@ -163,6 +163,10 @@ const download = (fileId, fileName) => {
     console.log(error.response);
   });
 }
+
+const wiki = () => {
+  window.open("https://mentoring-gitlab.gabia.com/mentee/mentee_2023.01/team/weat/gcell-api-server/-/wikis/%EC%97%91%EC%85%80-%ED%8C%8C%EC%9D%BC-%EC%83%9D%EC%84%B1-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BC%80%EC%9D%B4%EC%8A%A4");
+}
 </script>
 
 <template>
@@ -311,6 +315,9 @@ const download = (fileId, fileName) => {
     <button type="button" class="btn btn-primary mb-3" @click="createFile">
       생성
     </button>
+    <button type="button" class="btn btn-success mb-3 right-button" @click="wiki">
+      생성 조건 가이드
+    </button>
   </div>
 </template>
 
@@ -327,6 +334,9 @@ const download = (fileId, fileName) => {
 
 .option-width {
   max-width: 100px;
+}
+.right-button{
+  float: right;
 }
 </style>
 
