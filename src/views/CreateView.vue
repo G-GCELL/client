@@ -19,8 +19,8 @@ const inputValue = reactive({
   accountId: [],
   productCodeStatus: "NONE",
   productCode: [],
-  startDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
-  endDate: ["2022-01-01T00:00:00", "2022-12-31T00:00:00"],
+  startDate: ["2022-01-01T00:00:00", "2023-12-31T00:00:00"],
+  endDate: ["2022-01-01T00:00:00", "2023-12-31T00:00:00"],
   costMin: "0",
   costMax: "10000",
 });
