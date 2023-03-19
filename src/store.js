@@ -16,3 +16,13 @@ export const getRoles = () => {
     let payload = JSON.parse(decodePayload);
     return payload.roles.split(",");
 }
+
+export const completeStore = reactive(new Set());
+
+export const setComplete = (value) => {
+    completeStore.add(value);
+}
+
+export const isComplete = (value) => {
+    return completeStore.has(value);
+}

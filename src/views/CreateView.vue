@@ -2,7 +2,7 @@
 import axios from "axios";
 import { reactive } from "vue";
 import { useRouter } from 'vue-router'
-import { progressStore, getToken } from "../store";
+import {progressStore, getToken, setComplete} from "../store";
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
 import Vue3TagsInput from 'vue3-tags-input';
@@ -129,11 +129,13 @@ const createFile = () => {
         completeSse.addEventListener("FILE_CREATION_COMPLETE", function (event) {
           let message = JSON.parse(event.data);
           download(message.excelInfoId, message.fileName);
+          setComplete(message.excelInfoId);
         });
 
         completeSse.addEventListener("ERROR", function (event) {
           let message = JSON.parse(event.data);
           alert(message.errorMessage);
+          setComplete(message.excelInfoId);
         });
 
         router.push("/search");

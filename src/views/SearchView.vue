@@ -35,6 +35,18 @@ const date = ref([]);
 
 const idCondition = ref("NONE");
 const nameCondition = ref("NONE");
+const status = ref("NONE");
+
+const sortData = reactive({
+  fileName : {
+    name: "name",
+    desc: false
+  },
+  createdAt: {
+    name: "createdAt",
+    desc: true
+  }
+});
 
 const search = reactive({
   excelInfoIdList: null,
@@ -43,8 +55,38 @@ const search = reactive({
   nameCondition: null,
   minCreatedAt: null,
   maxCreatedAt: null,
-  sort: "createdAt,desc"
+  sort: "createdAt,desc",
+  status: null,
 });
+
+const sorting = (value) => {
+  let str = null;
+  switch (value){
+    case sortData.fileName :
+      str = sortData.fileName.name;
+      if(!sortData.fileName.desc){
+        str = str.concat(",desc");
+        sortData.fileName.desc = true;
+      }else{
+        str = str.concat(",asc");
+        sortData.fileName.desc = false;
+      }
+      break;
+    case sortData.createdAt :
+      str = sortData.createdAt.name;
+      if(!sortData.createdAt.desc){
+        str = str.concat(",desc");
+        sortData.createdAt.desc = true;
+      }else{
+        str = str.concat(",asc");
+        sortData.createdAt.desc = false;
+      }
+      break;
+  }
+  search.sort = str;
+  console.log(search);
+  searchFile();
+}
 
 const searchFile = () => {
   if (date.value !== null) {
@@ -57,6 +99,7 @@ const searchFile = () => {
 
   search.idCondition = idCondition.value == "NONE" ? null : idCondition.value;
   search.nameCondition = nameCondition.value == "NONE" ? null : nameCondition.value;
+  search.status = status.value == "NONE" ? null : status.value;
 
   if (search.excelInfoIdList == "") {
     search.excelInfoIdList = null;
@@ -137,6 +180,18 @@ onMounted(() => {
       </div>
       <VueDatePicker class="mb-3" model-type="yyyy-MM-dd'T'HH:mm:ss" v-model="date" range/>
 
+      <div class="input-group mt-3 mb-3">
+        <span class="input-group-text" id="basic-addon1"><b>Status</b></span>
+        <select v-model="status" class="form-select" id="inputGroupSelect"
+                aria-label="Example select with button addon">
+          >
+          <option>NONE</option>
+          <option>CREATING</option>
+          <option>CREATED</option>
+          <option>DELETED</option>
+        </select>
+      </div>
+
       <div class="btn-group">
         <button type="button" class="btn btn-primary mb-3" @click="searchFile">
           검색
@@ -153,8 +208,8 @@ onMounted(() => {
       <thead>
       <tr>
         <th>ID</th>
-        <th>FileName</th>
-        <th>CreatedAt</th>
+        <th @click="sorting(sortData.fileName)">FileName</th>
+        <th @click="sorting(sortData.createdAt)">CreatedAt</th>
         <th>Button</th>
       </tr>
       </thead>

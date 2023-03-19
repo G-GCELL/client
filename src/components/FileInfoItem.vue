@@ -1,9 +1,9 @@
 <script setup>
 import axios from "axios";
-import {getToken, progressStore} from "../store";
+import {getToken, progressStore, completeStore} from "../store";
 
 import dayjs from "dayjs";
-import {onMounted} from "vue";
+import {onMounted, watch} from "vue";
 
 const props = defineProps({
   excelInfoId: Number,
@@ -15,6 +15,13 @@ const props = defineProps({
 const emit = defineEmits([
    "getFileList"
 ]);
+
+watch(completeStore, () => {
+  if (completeStore.has(props.excelInfoId)){
+    emit("getFileList");
+    completeStore.delete(props.excelInfoId);
+  }
+}, { deep : true })
 
 const download = () => {
   axios({
