@@ -6,6 +6,7 @@ import {useRouter} from 'vue-router'
 import Vue3TagsInput from 'vue3-tags-input';
 
 import FileInfoItem from "../components/FileInfoItem.vue";
+import Header from "@/components/layout/Header.vue";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
@@ -153,63 +154,57 @@ onMounted(() => {
 </script>
 
 <template>
+  <Header/>
   <div class="container container-border">
-    <div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1"><b>IdList</b></span>
-        <select v-model="idCondition" class="form-select option-width" id="inputGroupSelect"
-                aria-label="Example select with button addon">
-          >
-          <option>NONE</option>
-          <option>IN</option>
-          <option>NOT_IN</option>
-        </select>
-        <vue3-tags-input class="form-control" aria-label="AccountId"
-                         aria-describedby="basic-addon1" @on-tags-changed="handleChangeTag" value="" />
-      </div>
-      <div class="input-group mt-3 mb-3">
-        <label class="input-group-text" for="inputGroupSelect"><b>FileName</b></label>
-        <select v-model="nameCondition" class="form-select option-width" id="inputGroupSelect"
-                aria-label="Example select with button addon">
-          <option>NONE</option>
-          <option>EQUAL</option>
-          <option>LIKE</option>
-        </select>
-        <input type="text" class="form-control" placeholder="Username" @input="search.fileName = $event.target.value"
-               value=""/>
-      </div>
-      <VueDatePicker class="mb-3" model-type="yyyy-MM-dd'T'HH:mm:ss" v-model="date" range/>
-
-      <div class="input-group mt-3 mb-3">
-        <span class="input-group-text" id="basic-addon1"><b>Status</b></span>
-        <select v-model="status" class="form-select" id="inputGroupSelect"
-                aria-label="Example select with button addon">
-          >
-          <option>NONE</option>
-          <option>CREATING</option>
-          <option>CREATED</option>
-          <option>DELETED</option>
-        </select>
-      </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary mb-3" @click="searchFile">
-          검색
-        </button>
-        <button type="button" class="btn btn-primary mb-3" @click="createUI">
-          생성
-        </button>
-        <button type="button" class="btn btn-primary mb-3" @click="updateUI">
-          데이터 관리
-        </button>
-      </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1"><b>파일 ID</b></span>
+      <select v-model="idCondition" class="form-select option-width" id="inputGroupSelect"
+              aria-label="Example select with button addon">
+        >
+        <option>NONE</option>
+        <option>IN</option>
+        <option>NOT_IN</option>
+      </select>
+      <vue3-tags-input class="form-control" aria-label="AccountId"
+                       aria-describedby="basic-addon1" @on-tags-changed="handleChangeTag" value="" />
     </div>
+
+    <div class="input-group mt-3 mb-3">
+      <label class="input-group-text" for="inputGroupSelect"><b>파일 이름</b></label>
+      <select v-model="nameCondition" class="form-select option-width" id="inputGroupSelect"
+              aria-label="Example select with button addon">
+        <option>NONE</option>
+        <option>EQUAL</option>
+        <option>LIKE</option>
+      </select>
+      <input type="text" class="form-control" placeholder="파일 이름" @input="search.fileName = $event.target.value"
+             value=""/>
+    </div>
+
+    <VueDatePicker class="mb-3" model-type="yyyy-MM-dd'T'HH:mm:ss" v-model="date" range/>
+
+    <div class="input-group mt-3 mb-3">
+      <span class="input-group-text" id="basic-addon1"><b>파일 상태</b></span>
+      <select v-model="status" class="form-select" id="inputGroupSelect"
+              aria-label="Example select with button addon">
+        >
+        <option>NONE</option>
+        <option>CREATING</option>
+        <option>CREATED</option>
+        <option>DELETED</option>
+      </select>
+    </div>
+
+    <button type="button" class="btn btn-primary mb-3" @click="searchFile">
+      검색
+    </button>
+
     <table class="table table-hover">
       <thead>
       <tr>
         <th>ID</th>
-        <th @click="sorting(sortData.fileName)">FileName</th>
-        <th @click="sorting(sortData.createdAt)">CreatedAt</th>
+        <th @click="sorting(sortData.fileName)">파일 이름</th>
+        <th @click="sorting(sortData.createdAt)">생성 일자</th>
         <th>Button</th>
       </tr>
       </thead>
@@ -217,6 +212,7 @@ onMounted(() => {
       <FileInfoItem v-bind="item" @getFileList="getFileList"/>
       </tbody>
     </table>
+
     <ul class="pagination justify-content-center">
       <li class="page-item" :class="{ active: n - 1 === pageInfo.pageNumber }" v-for="n in pageInfo.totalPages">
         <a class="page-link" @click="movePage(n)">{{ n }}</a>
