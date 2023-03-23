@@ -26,3 +26,12 @@ export const setComplete = (value) => {
 export const isComplete = (value) => {
     return completeStore.has(value);
 }
+
+export const getMemberName = () => {
+    return cookies.get("name");
+}
+
+export const removeMemberCookies = () => {
+    cookies.remove("token");
+    cookies.remove("name");
+}

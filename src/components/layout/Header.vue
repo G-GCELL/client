@@ -1,4 +1,16 @@
-<script></script>
+<script setup>
+import { getMemberName, removeMemberCookies } from "@/store";
+import { useRouter } from 'vue-router'
+
+const memberName = decodeURI(getMemberName());
+const router = useRouter();
+
+const logout = () => {
+  removeMemberCookies();
+  alert("로그아웃 되었습니다.");
+  router.push("/");
+}
+</script>
 
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -24,8 +36,8 @@
         </ul>
 
         <div class="d-flex">
-          <div class="p-2">로그인 회원 정보</div>
-          <button class="btn btn-outline-danger" type="submit">로그아웃</button>
+          <div class="p-2">{{memberName}}</div>
+          <button class="btn btn-outline-danger" type="button" @click="logout">로그아웃</button>
         </div>
       </div>
     </div>
@@ -39,7 +51,8 @@
 }
 
 .p-2 {
-  margin-right: 10px;
+  margin-right: 20px;
+  font-weight: bold;
 }
 
 .router-link-active {
