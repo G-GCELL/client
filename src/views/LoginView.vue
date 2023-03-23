@@ -11,6 +11,7 @@ const login = () => {
 <template>
   <div class="container">
     <img class="logo" src="/src/assets/Gabia_Logo.png"/>
+
     <div class="border login-form">
       <button class="login-button" @click="login">hiworks로 로그인하기</button>
     </div>

@@ -4,6 +4,7 @@ import { reactive } from "vue";
 import { useRouter } from 'vue-router'
 import {progressStore, getToken, setComplete} from "../store";
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import Header from "@/components/layout/Header.vue";
 
 import Vue3TagsInput from 'vue3-tags-input';
 
@@ -172,15 +173,15 @@ const wiki = () => {
 </script>
 
 <template>
-  <div class="container">
-    <p class="h1 mt-4 mb-4">파일 생성</p>
+  <Header/>
+  <div class="container container-border">
     <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1"><b>ColumnNames</b></span>
+      <span class="input-group-text" id="basic-addon1"><b>컬럼 항목</b></span>
       <div class="form-control">
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="accountIdCheckbox" v-model="inputValue.columnNames"
                  value="account_id" />
-          <label class="form-check-label" for="accountIdCheckbox"><b>계정아이디</b></label>
+          <label class="form-check-label" for="accountIdCheckbox"><b>계정 ID</b></label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="startDateCheckbox" v-model="inputValue.columnNames"
@@ -195,7 +196,7 @@ const wiki = () => {
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="productCodeCheckbox" v-model="inputValue.columnNames"
                  value="product_code" />
-          <label class="form-check-label" for="productCodeCheckbox"><b>상품코드</b></label>
+          <label class="form-check-label" for="productCodeCheckbox"><b>상품 코드</b></label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="costCheckbox" v-model="inputValue.columnNames"
@@ -204,15 +205,17 @@ const wiki = () => {
         </div>
       </div>
     </div>
+
     <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1"><b>FileName</b></span>
-      <input type="text" class="form-control" placeholder="FileName" aria-label="FileName" aria-describedby="basic-addon1"
+      <span class="input-group-text" id="basic-addon1"><b>파일 이름</b></span>
+      <input type="text" class="form-control" placeholder="파일 이름" aria-label="FileName" aria-describedby="basic-addon1"
              @input="inputValue.fileName = $event.target.value" value="" />
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field.</div>
     </div>
+
     <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1"><b>AccountId</b></span>
+      <span class="input-group-text" id="basic-addon1"><b>계정 ID</b></span>
       <select class="form-select option-width" id="account-id-select" v-model="inputValue.accountIdStatus"
               aria-label="Example select with button addon">
         >
@@ -223,8 +226,9 @@ const wiki = () => {
       <vue3-tags-input class="form-control" aria-label="AccountId"
              aria-describedby="basic-addon1" @on-tags-changed="handleChangeTag" value="" />
     </div>
+
     <div class="input-group mb-3">
-      <span class="input-group-text" id="product-code-select"><b>ProductCode</b></span>
+      <span class="input-group-text" id="product-code-select"><b>상품 코드</b></span>
       <select class="form-select option-width" id="product-code-select" v-model="inputValue.productCodeStatus"
               aria-label="Example select with button addon">
         >
@@ -297,23 +301,24 @@ const wiki = () => {
     </div>
 
     <div class="input-group mb-3">
-      <span class="input-group-text"><b>StartDate</b></span>
+      <span class="input-group-text"><b>시작일시</b></span>
       <VueDatePicker class="form-control date-picker-style" v-model="inputValue.startDate"
                      model-type="yyyy-MM-dd'T'HH:mm:ss" range />
     </div>
 
     <div class="input-group mb-3">
-      <span class="input-group-text"><b>EndDate</b></span>
+      <span class="input-group-text"><b>종료일시</b></span>
       <VueDatePicker class="form-control date-picker-style" v-model="inputValue.endDate"
                      model-type="yyyy-MM-dd'T'HH:mm:ss" range />
     </div>
 
     <div class="input-group mb-3">
-      <span class="input-group-text"><b>Cost</b></span>
+      <span class="input-group-text"><b>비용</b></span>
       <input type="number" class="form-control" @input="inputValue.costMin = $event.target.value" value="0" />
       <span class="input-group-text">~</span>
       <input type="number" class="form-control" @input="inputValue.costMax = $event.target.value" value="10000" />
     </div>
+
     <button type="button" class="btn btn-primary mb-3" @click="createFile">
       생성
     </button>
@@ -324,10 +329,8 @@ const wiki = () => {
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .container {
-    margin: 0 auto;
-  }
+.container-border {
+  padding: 2em;
 }
 
 .date-picker-style {
